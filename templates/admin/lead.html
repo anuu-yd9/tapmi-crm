@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block title %}{{ lead.name }}{% endblock %}
 {% block content %}
@@ -56,11 +57,10 @@
         <div class="panel">
           <h3>AI assistant</h3>
           {% if ai %}
-            <p><span class="tag">{{ 'Gemini' if ai.mode=='gemini' else 'Template mode (no AI key set)' }}</span> Priority: <strong>{{ ai.priority }}</strong></p>
+            <p>Priority: <strong>{{ ai.priority }}</strong></p>
             <p>{{ ai.summary }}</p>
             <ul class="ticks">{% for r in ai.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
             <p><strong>Next action for you:</strong> {{ ai.next_action }}</p>
-            {% if ai.note %}<p class="small muted">{{ ai.note }}</p>{% endif %}
           {% else %}
             <p class="muted">Summarise this lead, suggest a next step and draft a follow-up email for your approval.</p>
           {% endif %}
