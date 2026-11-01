@@ -283,14 +283,34 @@ def analyse(lead):
 
         return data
 
+
+    except requests.exceptions.HTTPError as exc:
+
+        status = exc.response.status_code if exc.response is not None else "unknown"
+
+        details = exc.response.text[:2000] if exc.response is not None else str(exc)
+
+        print(f"Gemini HTTP error {status}: {details}")
+
+        output = template_analysis(lead)
+
+        output["note"] = f"Gemini call failed (HTTP {status}); template used instead."
+
+        return output
+
+
     except Exception as exc:
 
-        # If Gemini fails, the CRM still works using the template.
+        print(f"Gemini call failed: {type(exc).__name__}: {exc}")
+
         output = template_analysis(lead)
 
         output["note"] = (
+
             f"Gemini call failed ({type(exc).__name__}); "
+
             "template used instead."
+
         )
 
         return output
