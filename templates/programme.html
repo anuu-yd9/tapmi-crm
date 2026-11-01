@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }}{% endblock %}
+{% block content %}
+{% set has_both = code != 'mdp' %}
+{% set kind = kind if has_both else 'B2B' %}
+{% set key = code|upper ~ '_' ~ kind %}
+{% set s = SITUATIONS[key] %}
+<section>
+  <div class="wrap">
+    <h1 style="max-width:18ch">{{ p.name }}</h1>
+    <p class="lede">{{ p.tagline }} {{ p.summary }}</p>
+
+    {% if has_both %}
+    <div class="tabs" role="tablist" aria-label="Who is this for?">
+      <a href="{{ url_for('programme', code=code, **{'for':'B2B'}) }}" {% if kind=='B2B' %}aria-current="true"{% endif %}>For organisations</a>
+      <a href="{{ url_for('programme', code=code, **{'for':'B2C'}) }}" {% if kind=='B2C' %}aria-current="true"{% endif %}>For individuals</a>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <h3>{{ s.label }}</h3>
+        <p>{{ s.positioning }}</p>
+        <p class="small muted">Designed for: {{ s.audience }}.</p>
+        <h3 style="margin-top:20px">What's included</h3>
+        <ul class="ticks">
+          {% for pt in (p.b2b_points if kind=='B2B' else p.b2c_points) %}<li>{{ pt }}</li>{% endfor %}
+        </ul>
+        <dl class="facts">
+          {% for k, v in p.facts %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}
+        </dl>
+      </div>
+
+      <div class="panel">
+        <h3>Fees</h3>
+        <p class="price-big">{{ p['price_headline_' ~ kind.lower()] }}</p>
+        {% if kind=='B2B' and p.b2b_table %}
+          <p class="muted small">Volume pricing for organisations:</p>
+          <div class="table-scroll"><table class="compare">
+            <thead><tr>{% for c in p.b2b_table_cols %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+            <tbody>{% for r in p.b2b_table %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td class="num">{{ r[2] }}</td></tr>{% endfor %}</tbody>
+          </table></div>
+        {% elif kind=='B2B' %}
+          <p class="muted">{{ p.b2b_note }}</p>
+        {% else %}
+          <p class="muted">{{ p.b2c_note }}</p>
+        {% endif %}
+        <p class="small muted">All fees are before GST.</p>
+        <p style="margin-top:20px"><a class="btn" href="{{ url_for('enquire', situation=key) }}">Enquire about the {{ p.name }}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

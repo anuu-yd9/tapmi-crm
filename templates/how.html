@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}How enquiries work{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <h1 style="font-size:clamp(2rem,4vw,3rem)">How enquiries work behind the scenes</h1>
+    <p class="lede">Every enquiry flows through one CRM that captures it, scores it, follows up automatically and keeps working after the sale. This page explains the logic.</p>
+
+    <h2 style="margin-top:32px">The flow</h2>
+    <ol class="steps" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <li><h3>Capture</h3><p>Each buyer situation has its own form. The link a visitor came from is recorded as the lead source.</p></li>
+      <li><h3>Qualify</h3><p>A score out of 100 sorts the lead into Hot, Warm or Cold using the questions on the form.</p></li>
+      <li><h3>Follow up</h3><p>A confirmation email goes out at once, then reminders and nurture emails follow a plan matched to the score.</p></li>
+      <li><h3>Convert</h3><p>Counsellors move the lead through its pipeline. Each stage creates the next task.</p></li>
+      <li><h3>Retain and develop</h3><p>After enrolment: check-ins, repeat cohorts, credit stacking and referral requests.</p></li>
+    </ol>
+
+    <h2 style="margin-top:40px">How leads are scored</h2>
+    <div class="grid grid-2">
+      <div class="panel">
+        <h3>Organisations (budget, authority, need)</h3>
+        <table class="compare"><tbody>
+          <tr><td>Authority: decider or budget owner</td><td class="num">up to 25</td></tr>
+          <tr><td>Budget: approved, sought, none</td><td class="num">up to 25</td></tr>
+          <tr><td>Timeline: within 3 months is best</td><td class="num">up to 20</td></tr>
+          <tr><td>Size of need: 10 or more people is best</td><td class="num">up to 15</td></tr>
+          <tr><td>Source quality: referral and personal selling</td><td class="num">up to 10</td></tr>
+          <tr><td>Asked for a call</td><td class="num">5</td></tr>
+        </tbody></table>
+      </div>
+      <div class="panel">
+        <h3>Individuals (fit, funding, intent)</h3>
+        <table class="compare"><tbody>
+          <tr><td>Profile fit: experience matches the target persona</td><td class="num">up to 25</td></tr>
+          <tr><td>Funding: self-funded, EMI, or hoping for sponsorship</td><td class="num">up to 25</td></tr>
+          <tr><td>Timeline: within 3 months is best</td><td class="num">up to 25</td></tr>
+          <tr><td>Source quality</td><td class="num">up to 10</td></tr>
+          <tr><td>Asked for a counselling call</td><td class="num">15</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="panel"><h3><span class="badge Hot">Hot</span> 70 and above</h3><p>Qualified as a sales lead at once. A person calls within 24 hours.</p></div>
+      <div class="panel"><h3><span class="badge Warm">Warm</span> 40 to 69</h3><p>Marketing-qualified. Nurture emails plus a reminder to book a call.</p></div>
+      <div class="panel"><h3><span class="badge Cold">Cold</span> below 40</h3><p>Slow, low-touch nurture, with a reminder to re-score after 30 days.</p></div>
+    </div>
+
+    <h2 style="margin-top:40px">Where the AI helps, and where people decide</h2>
+    <div class="panel">
+      <ul class="ticks">
+        <li>The AI summarises each lead, suggests a priority and the next action, and drafts a personal follow-up email.</li>
+        <li>It is only given the programme facts and fees held in this system, and is told never to promise admission, placement, salary, rankings or accreditation.</li>
+        <li>It never sends anything. A counsellor reads, edits and approves each draft.</li>
+        <li>People stay in charge of pricing exceptions, proposals, and every conversation about money.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Executive MBA, MDPs and Certifications{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="wrap">
+    <h1>Management education that fits how you buy it.</h1>
+    <p class="lede">An Executive MBA, customised Management Development Programmes and focused Certifications, with a clear route in for organisations and a different one for individuals.</p>
+
+    <div class="board-wrap" id="start">
+      <div class="board">
+        <header>
+          <h2>I'm buying for an organisation</h2>
+          <p>Sponsor employees, develop a whole cohort or upskill a team.</p>
+        </header>
+        <ul>
+          <li><a href="{{ url_for('programme', code='emba', **{'for':'B2B'}) }}">
+            <span class="row-name">Executive MBA</span><span class="row-meta">18 months · weekend and blended</span>
+            <span class="row-price">₹9,50,000<small>per participant + GST</small></span></a></li>
+          <li><a href="{{ url_for('programme', code='mdp') }}">
+            <span class="row-name">Management Development Programme</span><span class="row-meta">3 months · customised for your group</span>
+            <span class="row-price">₹25,00,000<small>per group of up to 25 + GST</small></span></a></li>
+          <li><a href="{{ url_for('programme', code='cert', **{'for':'B2B'}) }}">
+            <span class="row-name">Management Certifications</span><span class="row-meta">3 months · volume pricing</span>
+            <span class="row-price">₹18,000<small>per learner + GST</small></span></a></li>
+        </ul>
+      </div>
+
+      <div class="board alt">
+        <header>
+          <h2>I'm investing in myself</h2>
+          <p>Move beyond your function, or add one focused skill.</p>
+        </header>
+        <ul>
+          <li><a href="{{ url_for('programme', code='emba', **{'for':'B2C'}) }}">
+            <span class="row-name">Executive MBA</span><span class="row-meta">18 months · EMI and deferred-fee option</span>
+            <span class="row-price">₹9,50,000<small>+ GST</small></span></a></li>
+          <li><a href="{{ url_for('programme', code='cert', **{'for':'B2C'}) }}">
+            <span class="row-name">Management Certifications</span><span class="row-meta">3 months · credits stack into the Executive MBA</span>
+            <span class="row-price">₹18,000<small>+ GST · two-instalment plan</small></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <h2>The three programmes at a glance</h2>
+    <div class="table-scroll">
+    <table class="compare">
+      <thead><tr><th></th><th>Executive MBA</th><th>Management Development Programme</th><th>Management Certifications</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Best for</th><td>High-potential employees and mid-career professionals moving into broader leadership</td><td>Groups of managers who share a capability gap</td><td>Employees or professionals who need one specific skill</td></tr>
+        <tr><th scope="row">Duration</th><td>18 months</td><td>3 months</td><td>3 months</td></tr>
+        <tr><th scope="row">Format</th><td>Alternate weekends on campus, live virtual and asynchronous modules</td><td>2 campus immersions, live online weekends, bi-weekly coaching</td><td>Weekend live online, self-paced content, optional campus masterclass</td></tr>
+        <tr><th scope="row">Who buys</th><td>Organisations and individuals</td><td>Organisations only</td><td>Organisations and individuals</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What happens after you enquire</h2>
+    <ol class="steps">
+      <li><h3>Tell us what you need</h3><p>A short form. Organisations tell us about the group and the budget. Individuals tell us about their experience and plans.</p></li>
+      <li><h3>Hear back within one working day</h3><p>You get a confirmation straight away and a counsellor follows up the next working day.</p></li>
+      <li><h3>Talk it through</h3><p>A call about fit, fees and timing. No pressure, and you can pause at any point.</p></li>
+    </ol>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Reminders{% endblock %}
+{% block content %}
+<section class="section-tight">
+  <div class="wrap">
+    <h1 style="font-size:2rem">Reminders and follow-ups</h1>
+    <p class="muted">Open tasks, oldest first. Overdue items are in red. Automatic emails send themselves when due; calls and reminders wait here for a person.</p>
+    <form method="post" action="{{ url_for('run_now') }}" style="margin-bottom:16px">
+      <input type="hidden" name="back" value="{{ url_for('tasks') }}">
+      <button class="btn btn-small" type="submit">Run automations now</button>
+    </form>
+    <div class="table-scroll">
+    <table class="dtable">
+      <thead><tr><th>Due</th><th>Task</th><th>Lead</th><th>Type</th><th></th></tr></thead>
+      <tbody>
+      {% for t in tasks %}
+        <tr>
+          <td class="{{ 'overdue' if t.due_at <= now }}">{{ t.due_at|ist('%d %b %Y') }}{% if t.due_at <= now %} (overdue){% endif %}</td>
+          <td>{{ t.title }}</td>
+          <td><a href="{{ url_for('lead_detail', lead_id=t.lead_id) }}">{{ t.name }}</a><br><span class="small muted">{{ SITUATIONS[t.situation].short }}</span></td>
+          <td>{{ 'Automatic' if t.auto else 'Person' }} · {{ t.kind }}</td>
+          <td>{% if not t.auto or t.kind != 'email' %}
+            <form method="post" action="{{ url_for('task_done', task_id=t.id) }}"><button class="btn btn-small btn-ghost" type="submit">Mark done</button></form>{% endif %}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5">Nothing open. New enquiries will add tasks here.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

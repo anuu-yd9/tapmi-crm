@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Team login{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap" style="max-width:460px">
+    <h1 style="font-size:2.2rem">Team login</h1>
+    <p class="muted">For the CRM and dashboard.</p>
+    <form method="post">
+      <div class="field {{ 'has-error' if error }}">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autofocus required>
+        {% if error %}<span class="error" role="alert">{{ error }}</span>{% endif %}
+      </div>
+      <p style="margin-top:16px"><button class="btn" type="submit">Log in</button></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

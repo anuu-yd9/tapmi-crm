@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Enquiry received{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <h1 style="font-size:clamp(2rem,4vw,3rem)">Enquiry received</h1>
+    <p class="lede">Thank you. A confirmation email is on its way, and a counsellor will reply within one working day.</p>
+    <p>You asked about: <strong>{{ sit.label }}</strong>.</p>
+    <p><a class="btn" href="{{ url_for('home') }}">Back to the home page</a>
+       <a class="btn btn-ghost" href="{{ url_for('programme', code=sit.programme, **{'for': sit.kind}) }}">Review fees again</a></p>
+  </div>
+</section>
+{% endblock %}

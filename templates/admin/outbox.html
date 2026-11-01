@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Email log{% endblock %}
+{% block content %}
+<section class="section-tight">
+  <div class="wrap">
+    <h1 style="font-size:2rem">Email log</h1>
+    <p class="muted">Every automatic and approved email. Sending is simulated: nothing leaves this system.</p>
+    {% for m in msgs %}
+      <div class="msg {{ 'draft' if m.status=='draft' }}">
+        <strong>{{ m.subject }}</strong>
+        <div class="small muted">To <a href="{{ url_for('lead_detail', lead_id=m.lead_id) }}">{{ m.name }}</a> · {{ m.created_at|ist }} ·
+          {% if m.status=='draft' %}Draft awaiting approval{% else %}Sent{% endif %} · by {{ m.made_by }}</div>
+        <pre>{{ m.body }}</pre>
+      </div>
+    {% else %}<p>No emails yet. Submit an enquiry and the welcome email appears here.</p>{% endfor %}
+  </div>
+</section>
+{% endblock %}

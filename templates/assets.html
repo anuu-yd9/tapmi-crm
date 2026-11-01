@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Brochures, videos and posters{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <h1 style="font-size:clamp(2rem,4vw,3rem)">Brochures, videos and posters</h1>
+    <p class="lede">Every buyer situation has its own video, brochure, poster and story.</p>
+    <div class="grid grid-2">
+    {% for key, s in SITUATIONS.items() %}
+      <article class="panel">
+        <span class="tag {{ 'b2c' if s.kind=='B2C' else '' }}">{{ s.kind }}</span>
+        <h3 style="margin-top:10px">{{ s.label }}</h3>
+        <ul class="ticks" style="margin-top:12px">
+        {% for t, label in types %}
+          {% if t != 'story' or s.kind == 'B2B' %}
+          <li>{% if links[key][t] %}<a href="{{ links[key][t] }}" target="_blank" rel="noopener">{{ label }}</a>
+              {% else %}<span class="muted">{{ label }}: coming soon</span>{% endif %}</li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </article>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

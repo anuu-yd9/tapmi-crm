@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Leads{% endblock %}
+{% block content %}
+<section class="section-tight">
+  <div class="wrap">
+    <h1 style="font-size:2rem">Leads</h1>
+    <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+      <select name="situation" aria-label="Buyer situation"><option value="">All buyer situations</option>
+        {% for k, s in SITUATIONS.items() %}<option value="{{ k }}" {{ 'selected' if q.situation==k }}>{{ s.short }}</option>{% endfor %}</select>
+      <select name="band" aria-label="Score band"><option value="">All scores</option>
+        {% for b in ['Hot','Warm','Cold'] %}<option {{ 'selected' if q.band==b }}>{{ b }}</option>{% endfor %}</select>
+      <select name="stage" aria-label="Stage"><option value="">All stages</option>
+        {% for s in all_stages %}<option {{ 'selected' if q.stage==s }}>{{ s }}</option>{% endfor %}</select>
+      <button class="btn btn-small" type="submit">Filter</button>
+    </form>
+    <div class="table-scroll">
+    <table class="dtable">
+      <thead><tr><th>Lead</th><th>Buyer situation</th><th>Source</th><th class="r">Score</th><th>Stage</th><th class="r">Est. value</th><th>Captured</th></tr></thead>
+      <tbody>
+      {% for l in leads %}
+        <tr>
+          <td><a href="{{ url_for('lead_detail', lead_id=l.id) }}"><strong>{{ l.name }}</strong></a><br><span class="muted small">{{ l.org or l.job_title }}</span></td>
+          <td>{{ SITUATIONS[l.situation].short }}</td>
+          <td>{{ SOURCES[l.source] }}</td>
+          <td class="r"><span class="badge {{ l.band }}">{{ l.band }}</span> {{ l.score }}</td>
+          <td><span class="stage">{{ l.stage }}</span></td>
+          <td class="r">{{ l.est_value|inr }}</td>
+          <td class="small">{{ l.created_at|ist('%d %b %Y') }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7">No leads match these filters. Clear a filter, or submit a test enquiry from the website.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

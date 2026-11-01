@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}{{ lead.name }}{% endblock %}
+{% block content %}
+<section class="section-tight">
+  <div class="wrap">
+    <p class="small"><a href="{{ url_for('leads') }}">All leads</a></p>
+    <h1 style="font-size:2.2rem">{{ lead.name }} <span class="badge {{ lead.band }}" style="vertical-align:middle">{{ lead.band }} {{ lead.score }}</span></h1>
+    <p class="muted">{{ SITUATIONS[lead.situation].label }} · {{ SOURCES[lead.source] }} · captured {{ lead.created_at|ist }} · estimated value {{ lead.est_value|inr }}</p>
+
+    <h3>Pipeline stage</h3>
+    <div class="pipeline">
+      {% for s in pipeline + side %}
+        <form method="post" action="{{ url_for('set_stage', lead_id=lead.id) }}">
+          <input type="hidden" name="stage" value="{{ s }}">
+          <button type="submit" class="{{ 'on' if s==lead.stage }}" {% if s==lead.stage %}aria-current="true"{% endif %}>{{ s }}</button>
+        </form>
+      {% endfor %}
+    </div>
+
+    <div class="grid grid-2">
+      <div>
+        <div class="panel">
+          <h3>Details</h3>
+          <dl class="facts">
+            <dt>Email</dt><dd>{{ lead.email }}</dd>
+            <dt>Phone</dt><dd>{{ lead.phone or 'not given' }}</dd>
+            <dt>Title</dt><dd>{{ lead.job_title or 'not given' }}</dd>
+            {% if lead.kind=='B2B' %}
+              <dt>Organisation</dt><dd>{{ lead.org }}</dd>
+              <dt>Decision role</dt><dd>{{ lead.role }}</dd>
+              <dt>Budget</dt><dd>{{ lead.budget }}</dd>
+              <dt>Participants</dt><dd>{{ lead.seats }}</dd>
+            {% else %}
+              <dt>Experience</dt><dd>{{ lead.years_exp }} years</dd>
+              <dt>Funding</dt><dd>{{ lead.funding }}</dd>
+              <dt>Main concern</dt><dd>{{ lead.concern }}</dd>
+            {% endif %}
+            <dt>Timeline</dt><dd>{{ lead.timeline }}</dd>
+            <dt>Asked for call</dt><dd>{{ 'Yes' if lead.wants_call else 'No' }}</dd>
+            <dt>Message</dt><dd>{{ lead.message or 'none' }}</dd>
+          </dl>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <h3>Why this score</h3>
+          {% for d in detail %}
+            <div class="scorebar" title="{{ d.why }}"><span>{{ d.factor }}</span>
+              <div class="bar" style="margin:0"><i style="width:{{ (100*d.points/d.max)|int }}%"></i></div>
+              <span class="num">{{ d.points }}/{{ d.max }}</span></div>
+          {% endfor %}
+          <p class="small muted">Hover a row for the reasoning. Hot is 70 or more, Warm is 40 to 69.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <h3>AI assistant</h3>
+          {% if ai %}
+            <p><span class="tag">{{ 'Gemini' if ai.mode=='gemini' else 'Template mode (no AI key set)' }}</span> Priority: <strong>{{ ai.priority }}</strong></p>
+            <p>{{ ai.summary }}</p>
+            <ul class="ticks">{% for r in ai.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+            <p><strong>Next action for you:</strong> {{ ai.next_action }}</p>
+            {% if ai.note %}<p class="small muted">{{ ai.note }}</p>{% endif %}
+          {% else %}
+            <p class="muted">Summarise this lead, suggest a next step and draft a follow-up email for your approval.</p>
+          {% endif %}
+          <form method="post" action="{{ url_for('run_ai', lead_id=lead.id) }}"><button class="btn btn-small" type="submit">{{ 'Run AI again' if ai else 'Analyse lead with AI' }}</button></form>
+        </div>
+
+        <h3 style="margin-top:24px">Emails</h3>
+        {% for m in msgs %}
+          <div class="msg {{ 'draft' if m.status=='draft' }}">
+            {% if m.status=='draft' %}
+              <form method="post" action="{{ url_for('approve_message', msg_id=m.id) }}">
+                <div class="small"><strong>Draft by AI, needs your approval</strong></div>
+                <div class="field" style="margin-top:8px"><label for="s{{ m.id }}">Subject</label><input id="s{{ m.id }}" name="subject" value="{{ m.subject }}"></div>
+                <div class="field" style="margin-top:8px"><label for="b{{ m.id }}">Body</label><textarea id="b{{ m.id }}" name="body" rows="8">{{ m.body }}</textarea></div>
+                <p style="margin:10px 0 0"><button class="btn btn-small" type="submit">Approve and send</button></p>
+              </form>
+            {% else %}
+              <strong>{{ m.subject }}</strong>
+              <div class="small muted">{{ m.created_at|ist }} · sent by {{ m.made_by }}</div>
+              <pre>{{ m.body }}</pre>
+            {% endif %}
+          </div>
+        {% else %}<p class="muted">No emails yet.</p>{% endfor %}
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px">Follow-up plan</h3>
+    <div class="table-scroll"><table class="dtable">
+      <thead><tr><th>Due</th><th>Task</th><th>Type</th><th>Status</th><th></th></tr></thead>
+      <tbody>{% for t in tasks %}
+        <tr><td class="{{ 'overdue' if t.status=='open' and t.due_at <= now }}">{{ t.due_at|ist('%d %b %Y') }}</td><td>{{ t.title }}</td>
+            <td>{{ 'Automatic' if t.auto else 'Person' }}</td><td>{{ t.status }}</td>
+            <td>{% if t.status=='open' and (not t.auto) %}<form method="post" action="{{ url_for('task_done', task_id=t.id) }}"><input type="hidden" name="back" value="{{ url_for('lead_detail', lead_id=lead.id) }}"><button class="btn btn-small btn-ghost">Mark done</button></form>{% endif %}</td></tr>
+      {% endfor %}</tbody></table></div>
+
+    <h3 style="margin-top:28px">Activity</h3>
+    <ul class="timeline">{% for a in acts %}<li><span class="muted small">{{ a.created_at|ist }}</span> {{ a.text }}</li>{% endfor %}</ul>
+  </div>
+</section>
+{% endblock %}

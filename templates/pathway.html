@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ 'For organisations' if kind=='B2B' else 'For individuals' }}{% endblock %}
+{% block content %}
+<section>
+  <div class="wrap">
+    {% if kind=='B2B' %}
+      <h1>For organisations</h1>
+      <p class="lede">Build leaders from your own talent, close a capability gap across a team, or upskill employees for a specific role.</p>
+    {% else %}
+      <h1>For individuals</h1>
+      <p class="lede">Move into broader leadership or sharpen one skill, without stepping away from your career.</p>
+    {% endif %}
+    <div class="grid grid-2">
+    {% for key, s in SITUATIONS.items() if s.kind == kind %}
+      {% set p = PROGRAMMES[s.programme] %}
+      <article class="panel">
+        <span class="tag {{ 'b2c' if kind=='B2C' else '' }}">{{ p.name }}</span>
+        <h3 style="margin-top:12px">{{ s.label }}</h3>
+        <p class="muted">{{ s.positioning }}</p>
+        <p class="small"><strong>Designed for:</strong> {{ s.audience }}.</p>
+        <p class="price-big">{{ p['price_headline_' ~ kind.lower()] }}</p>
+        <p>
+          <a class="btn" href="{{ url_for('enquire', situation=key) }}">Enquire about this</a>
+          <a class="btn btn-ghost" href="{{ url_for('programme', code=s.programme, **{'for': kind}) }}">See details and fees</a>
+        </p>
+      </article>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

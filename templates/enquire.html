@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Enquire: {{ sit.short }}{% endblock %}
+{% macro err(name) %}{% if errors.get(name) %}<span class="error" id="e-{{ name }}">{{ errors[name] }}</span>{% endif %}{% endmacro %}
+{% block content %}
+<section>
+  <div class="wrap">
+    <h1 style="font-size:clamp(2rem,4vw,3rem)">{{ sit.label }}</h1>
+    <p class="lede">{{ sit.positioning }}</p>
+    <div class="form-layout">
+      <form method="post" novalidate>
+        <input type="hidden" name="source" value="{{ src }}">
+        <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="form-grid">
+          <div class="field {{ 'has-error' if errors.name }}"><label for="name">Full name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" value="{{ form.get('name','') }}">{{ err('name') }}</div>
+          <div class="field {{ 'has-error' if errors.email }}"><label for="email">Work email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" value="{{ form.get('email','') }}">{{ err('email') }}</div>
+          <div class="field"><label for="phone">Phone <span class="muted">(optional)</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" value="{{ form.get('phone','') }}"></div>
+          <div class="field"><label for="job_title">Your job title</label>
+            <input id="job_title" name="job_title" type="text" value="{{ form.get('job_title','') }}"></div>
+
+          {% if sit.kind == 'B2B' %}
+            <div class="field full {{ 'has-error' if errors.org }}"><label for="org">Organisation</label>
+              <input id="org" name="org" type="text" autocomplete="organization" value="{{ form.get('org','') }}">{{ err('org') }}</div>
+            <div class="field"><label for="role">Your part in this decision</label>
+              <select id="role" name="role">{% for v, l in roles %}<option value="{{ v }}" {{ 'selected' if form.get('role')==v }}>{{ l }}</option>{% endfor %}</select></div>
+            <div class="field {{ 'has-error' if errors.seats }}"><label for="seats">{{ 'People in the group' if key=='MDP_B2B' else 'Number of participants' }}</label>
+              <input id="seats" name="seats" type="number" min="1" max="500" value="{{ form.get('seats','1') }}">{{ err('seats') }}
+              <span class="hint">A rough number is fine.</span></div>
+            <div class="field"><label for="budget">Budget</label>
+              <select id="budget" name="budget">{% for v, l in budgets %}<option value="{{ v }}" {{ 'selected' if form.get('budget')==v }}>{{ l }}</option>{% endfor %}</select></div>
+          {% else %}
+            <div class="field {{ 'has-error' if errors.years_exp }}"><label for="years_exp">Years of work experience</label>
+              <input id="years_exp" name="years_exp" type="number" min="0" max="40" value="{{ form.get('years_exp','') }}">{{ err('years_exp') }}</div>
+            <div class="field"><label for="funding">How would you pay?</label>
+              <select id="funding" name="funding">{% for v, l in fundings %}<option value="{{ v }}" {{ 'selected' if form.get('funding')==v }}>{{ l }}</option>{% endfor %}</select></div>
+            <div class="field full"><label for="concern">What matters most to you right now?</label>
+              <select id="concern" name="concern">{% for v, l in concerns %}<option value="{{ v }}" {{ 'selected' if form.get('concern')==v }}>{{ l }}</option>{% endfor %}</select></div>
+          {% endif %}
+
+          <div class="field"><label for="timeline">When do you want to start?</label>
+            <select id="timeline" name="timeline">{% for v, l in timelines %}<option value="{{ v }}" {{ 'selected' if form.get('timeline')==v }}>{{ l }}</option>{% endfor %}</select></div>
+          <div class="field full"><label for="message">Anything else we should know? <span class="muted">(optional)</span></label>
+            <textarea id="message" name="message" rows="4" maxlength="1000">{{ form.get('message','') }}</textarea></div>
+          <div class="field full"><label class="check"><input type="checkbox" name="wants_call" value="1" {{ 'checked' if form.get('wants_call') }}> Call me to talk it through</label></div>
+          <div class="field full {{ 'has-error' if errors.consent }}"><label class="check"><input type="checkbox" name="consent" value="1" {{ 'checked' if form.get('consent') }}> I agree to be contacted about this enquiry.</label>{{ err('consent') }}</div>
+        </div>
+        {% if errors %}<p class="error" role="alert" style="margin-top:16px">Fix the {{ errors|length }} highlighted field(s) and send again.</p>{% endif %}
+        <p style="margin-top:20px"><button class="btn" type="submit">Send my enquiry</button></p>
+      </form>
+
+      <aside>
+        <div class="notice"><strong>Testing this project?</strong> Use dummy details or details you have consent to use. {{ DISCLAIMER }}</div>
+        <div class="panel" style="margin-top:16px">
+          <h3>What happens next</h3>
+          <ul class="ticks">
+            <li>You get a confirmation email straight away.</li>
+            <li>A counsellor replies within one working day.</li>
+            <li>{{ 'We discuss cohort size, schedule and budget.' if sit.kind=='B2B' else 'We discuss fit, fees and payment options.' }}</li>
+          </ul>
+          <p class="small muted">Fees: {{ PROGRAMMES[sit.programme]['price_headline_' ~ sit.kind.lower()] }}</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Marketing dashboard{% endblock %}
+{% block content %}
+<section class="section-tight">
+  <div class="wrap">
+    <h1 style="font-size:2rem">Marketing dashboard</h1>
+    <p class="muted">Tied to the launch objectives: {{ d.target_leads }} enquiries and {{ d.target_wins }} enrolments or contracts (editable below).</p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px">
+      <form method="post" action="{{ url_for('run_now') }}"><button class="btn btn-small" type="submit">Run automations now</button></form>
+      <form method="post" action="{{ url_for('clock') }}" style="display:flex;gap:6px;align-items:center">
+        <span class="small muted">Demo clock{% if offset %} (+{{ offset }} days){% endif %}:</span>
+        <button class="btn btn-small btn-ghost" name="days" value="3">+3 days</button>
+        <button class="btn btn-small btn-ghost" name="days" value="7">+7 days</button>
+        <button class="btn btn-small btn-ghost" name="days" value="30">+30 days</button>
+        <button class="btn btn-small btn-ghost" name="days" value="0">Reset</button>
+      </form>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v num">{{ d.total }}</div><div class="l">Leads captured</div>
+        <div class="bar"><i style="width:{{ [100, (100*d.total/d.target_leads)|int]|min }}%"></i></div><div class="l">{{ d.target_leads }} target</div></div>
+      <div class="kpi"><div class="v num">{{ d.won_count }}</div><div class="l">Enrolled or contracted</div>
+        <div class="bar"><i style="width:{{ [100, (100*d.won_count/d.target_wins)|int]|min }}%"></i></div><div class="l">{{ d.target_wins }} target</div></div>
+      <div class="kpi"><div class="v num">{{ d.sql_rate }}%</div><div class="l">Reached sales-qualified</div></div>
+      <div class="kpi"><div class="v num">{{ d.win_rate }}%</div><div class="l">Lead-to-enrolment rate</div></div>
+      <div class="kpi"><div class="v num">{{ d.pipeline_value|inr_short }}</div><div class="l">Open pipeline value</div></div>
+      <div class="kpi"><div class="v num">{{ d.weighted|inr_short }}</div><div class="l">Weighted pipeline</div></div>
+      <div class="kpi"><div class="v num">{{ d.won_value|inr_short }}</div><div class="l">Won value</div></div>
+      <div class="kpi"><div class="v num {{ 'overdue' if d.overdue }}">{{ d.overdue }}</div><div class="l">Overdue reminders</div></div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:24px">
+      <div class="panel"><h3>Funnel</h3><div class="chartbox"><canvas id="funnel" role="img" aria-label="Funnel chart of leads by stage"></canvas></div></div>
+      <div class="panel"><h3>Leads by buyer situation</h3><div class="chartbox"><canvas id="sit" role="img" aria-label="Bar chart of leads by buyer situation"></canvas></div></div>
+    </div>
+
+    <h2 style="margin-top:32px;font-size:1.4rem">Leads, cost and conversion by source</h2>
+    <div class="table-scroll"><table class="dtable">
+      <thead><tr><th>Source</th><th class="r">Leads</th><th class="r">Sales-qualified</th><th class="r">Enrolled</th><th class="r">Spend</th><th class="r">Cost per lead</th><th class="r">Cost per enrolment</th></tr></thead>
+      <tbody>
+      {% for s in d.by_source %}<tr><td>{{ s.label }}</td><td class="r">{{ s.leads }}</td><td class="r">{{ s.sql }}</td><td class="r">{{ s.won }}</td>
+        <td class="r">{{ s.spend|inr }}</td><td class="r">{{ s.cpl|inr if s.cpl else '-' }}</td><td class="r">{{ s.cpa|inr if s.cpa else '-' }}</td></tr>{% endfor %}
+      <tr><td><strong>All sources</strong></td><td class="r"><strong>{{ d.total }}</strong></td><td></td><td class="r"><strong>{{ d.won_count }}</strong></td>
+        <td class="r"><strong>{{ d.total_spend|inr }}</strong></td><td class="r"><strong>{{ d.blended_cpl|inr }}</strong></td><td class="r"><strong>{{ d.blended_cpa|inr if d.blended_cpa else '-' }}</strong></td></tr>
+      </tbody></table></div>
+
+    <h2 style="margin-top:32px;font-size:1.4rem">By buyer situation</h2>
+    <div class="table-scroll"><table class="dtable">
+      <thead><tr><th>Buyer situation</th><th class="r">Leads</th><th class="r">Hot</th><th class="r">Enrolled</th><th class="r">Estimated value</th></tr></thead>
+      <tbody>{% for s in d.by_sit %}<tr><td>{{ s.label }}</td><td class="r">{{ s.leads }}</td><td class="r">{{ s.hot }}</td><td class="r">{{ s.won }}</td><td class="r">{{ s.value|inr }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+
+    <h2 style="margin-top:32px;font-size:1.4rem">What each metric is for</h2>
+    <div class="table-scroll"><table class="dtable">
+      <thead><tr><th>Metric</th><th>Purpose</th><th>Reviewed</th><th>Decision it informs</th></tr></thead>
+      <tbody>
+        <tr><td>Leads by source and situation</td><td>Shows which channels bring which buyers</td><td>Weekly</td><td>Where to move promotional budget between LinkedIn, events, posters and sales visits</td></tr>
+        <tr><td>Funnel conversion</td><td>Finds where leads stall between enquiry and enrolment</td><td>Weekly</td><td>Whether to fix lead quality (marketing) or follow-up speed (admissions)</td></tr>
+        <tr><td>Cost per lead and per enrolment</td><td>Compares channel efficiency</td><td>Monthly</td><td>Which channels to scale, cut or test</td></tr>
+        <tr><td>Open and weighted pipeline value</td><td>Forecasts rupee value likely to close</td><td>Fortnightly</td><td>Whether cohort-size and revenue targets are on track</td></tr>
+        <tr><td>Hot-lead share</td><td>Checks that the right people are enquiring</td><td>Monthly</td><td>Whether to tighten targeting or the message for a buyer situation</td></tr>
+        <tr><td>Overdue reminders</td><td>Shows follow-ups slipping</td><td>Daily</td><td>Whether admissions needs more people or faster handoffs</td></tr>
+        <tr><td>Enrolled or contracted vs target</td><td>Tracks launch objective</td><td>Monthly</td><td>Whether to extend, reallocate or stop the launch campaign</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="assumptions" style="margin-top:32px;font-size:1.4rem">Targets and spend (assumptions)</h2>
+    <p class="muted small">Change these to your Milestone 3 Task A numbers. The cost metrics above update straight away.</p>
+    <form method="post" action="{{ url_for('settings') }}" class="panel">
+      <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+        <div class="field"><label for="tl">Lead target</label><input id="tl" type="number" name="target_leads" value="{{ d.target_leads }}"></div>
+        <div class="field"><label for="tw">Enrolment target</label><input id="tw" type="number" name="target_wins" value="{{ d.target_wins }}"></div>
+        {% for k, label in sources.items() %}
+          <div class="field"><label for="sp{{ k }}">Spend: {{ label }} (₹)</label><input id="sp{{ k }}" type="number" name="spend_{{ k }}" value="{{ d.spend[k] }}"></div>
+        {% endfor %}
+      </div>
+      <p style="margin-top:16px"><button class="btn btn-small" type="submit">Save assumptions</button></p>
+    </form>
+
+    <form method="post" action="{{ url_for('reset_demo') }}" style="margin-top:24px" onsubmit="return confirm('Delete every lead and restore the starting demo data?');">
+      <button class="btn btn-small btn-danger" type="submit">Reset to starting demo data</button>
+    </form>
+  </div>
+</section>
+
+<script src="{{ url_for('static', filename='chart.umd.js') }}"></script>
+<script>
+  const funnel = {{ d.funnel|tojson }};
+  const sit = {{ d.by_sit|tojson }};
+  const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  Chart.defaults.font.family = '"IBM Plex Sans", system-ui, sans-serif';
+  Chart.defaults.color = '#44506a';
+  new Chart(document.getElementById('funnel'), {
+    type: 'bar',
+    data: { labels: funnel.map(f => f.label), datasets: [{ data: funnel.map(f => f.count), backgroundColor: '#2748d8', borderRadius: 6 }] },
+    options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } },
+               scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+  new Chart(document.getElementById('sit'), {
+    type: 'bar',
+    data: { labels: sit.map(s => s.label),
+            datasets: [{ label: 'Leads', data: sit.map(s => s.leads), backgroundColor: '#2748d8', borderRadius: 6 },
+                       { label: 'Hot', data: sit.map(s => s.hot), backgroundColor: '#f2b33d', borderRadius: 6 },
+                       { label: 'Enrolled', data: sit.map(s => s.won), backgroundColor: '#1f7a5c', borderRadius: 6 }] },
+    options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+</script>
+{% endblock %}
