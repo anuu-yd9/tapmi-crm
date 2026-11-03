@@ -1,26 +1,135 @@
 {% extends "base.html" %}
-{% block title %}Brochures, videos and posters{% endblock %}
+{% block title %}Posters & Brochures{% endblock %}
 {% block content %}
-<section>
+<section class="assets-hero">
   <div class="wrap">
-    <h1 style="font-size:clamp(2rem,4vw,3rem)">Brochures, videos and posters</h1>
-    <p class="lede">Every buyer situation has its own video, brochure, poster and story.</p>
-    <div class="grid grid-2">
-    {% for key, s in SITUATIONS.items() %}
-      <article class="panel">
-        <span class="tag {{ 'b2c' if s.kind=='B2C' else '' }}">{{ s.kind }}</span>
-        <h3 style="margin-top:10px">{{ s.label }}</h3>
-        <ul class="ticks" style="margin-top:12px">
-        {% for t, label in types %}
-          {% if t != 'story' or s.kind == 'B2B' %}
-          <li>{% if links[key][t] %}<a href="{{ links[key][t] }}" target="_blank" rel="noopener">{{ label }}</a>
-              {% else %}<span class="muted">{{ label }}: coming soon</span>{% endif %}</li>
-          {% endif %}
-        {% endfor %}
-        </ul>
-      </article>
-    {% endfor %}
+    <p class="eyebrow">PROGRAMME INFORMATION</p>
+    <h1>Posters & Brochures</h1>
+    <p class="lede">Browse the programme posters and detailed brochures separately. Open any item to view it in full size.</p>
+    <div class="assets-jump-links">
+      <a class="btn btn-small" href="#posters">View posters</a>
+      <a class="btn btn-small btn-ghost" href="#brochures">View brochures</a>
     </div>
   </div>
 </section>
+<div id="posters"></div>
+
+    <section class="assets-section assets-library-section">
+      <div class="wrap">
+        <div class="poster-group">
+          <div class="poster-group-heading">
+            <div><p class="eyebrow">PROGRAMME INFORMATION</p><h2>Programme Posters</h2></div>
+            <p>Quick programme overviews</p>
+          </div>
+          <div class="poster-grid">
+
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/executive-mba-b2b.png') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/executive-mba-b2b.png') }}" alt="Executive MBA poster for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Executive MBA</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/executive-mba-b2b.png') }}" target="_blank" rel="noopener">View poster ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/executive-mba-b2c.png') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/executive-mba-b2c.png') }}" alt="Executive MBA poster for individuals" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Executive MBA</h3><span>For individuals</span></div>
+            <a href="{{ url_for('static', filename='posters/executive-mba-b2c.png') }}" target="_blank" rel="noopener">View poster ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/mdp.png') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/mdp.png') }}" alt="Management Development Programme poster for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Development Programme</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/mdp.png') }}" target="_blank" rel="noopener">View poster ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/certification-b2b.png') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/certification-b2b.png') }}" alt="Management Certifications poster for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Certifications</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/certification-b2b.png') }}" target="_blank" rel="noopener">View poster ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/certification-b2c.png') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/certification-b2c.png') }}" alt="Management Certifications poster for individuals" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Certifications</h3><span>For individuals</span></div>
+            <a href="{{ url_for('static', filename='posters/certification-b2c.png') }}" target="_blank" rel="noopener">View poster ↗</a>
+          </div>
+        </article>
+          </div>
+        </div>
+      </div>
+    </section>
+<div id="brochures"></div>
+
+    <section class="assets-section assets-library-section">
+      <div class="wrap">
+        <div class="poster-group">
+          <div class="poster-group-heading">
+            <div><p class="eyebrow">PROGRAMME INFORMATION</p><h2>Detailed Programme Brochures</h2></div>
+            <p>More detailed programme information</p>
+          </div>
+          <div class="poster-grid">
+
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/executive-mba-b2b.jpg') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/executive-mba-b2b.jpg') }}" alt="Executive MBA brochure for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Executive MBA</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/executive-mba-b2b.jpg') }}" target="_blank" rel="noopener">View brochure ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/executive-mba-b2c.jpg') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/executive-mba-b2c.jpg') }}" alt="Executive MBA brochure for individuals" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Executive MBA</h3><span>For individuals</span></div>
+            <a href="{{ url_for('static', filename='posters/executive-mba-b2c.jpg') }}" target="_blank" rel="noopener">View brochure ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/mdp.jpg') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/mdp.jpg') }}" alt="Management Development Programme brochure for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Development Programme</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/mdp.jpg') }}" target="_blank" rel="noopener">View brochure ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/certification-b2b.jpg') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/certification-b2b.jpg') }}" alt="Management Certifications brochure for organisations" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Certifications</h3><span>For organisations</span></div>
+            <a href="{{ url_for('static', filename='posters/certification-b2b.jpg') }}" target="_blank" rel="noopener">View brochure ↗</a>
+          </div>
+        </article>
+        <article class="poster-card">
+          <a href="{{ url_for('static', filename='posters/certification-b2c.jpg') }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='posters/certification-b2c.jpg') }}" alt="Management Certifications brochure for individuals" loading="lazy">
+          </a>
+          <div class="poster-caption">
+            <div><h3>Management Certifications</h3><span>For individuals</span></div>
+            <a href="{{ url_for('static', filename='posters/certification-b2c.jpg') }}" target="_blank" rel="noopener">View brochure ↗</a>
+          </div>
+        </article>
+          </div>
+        </div>
+      </div>
+    </section>
 {% endblock %}

@@ -5,9 +5,10 @@
 {% set kind = kind if has_both else 'B2B' %}
 {% set key = code|upper ~ '_' ~ kind %}
 {% set s = SITUATIONS[key] %}
-<section>
+<section class="programme-detail">
   <div class="wrap">
-    <h1 style="max-width:18ch">{{ p.name }}</h1>
+    <p class="eyebrow">TAPMI BENGALURU · EXECUTIVE EDUCATION</p>
+    <h1>{{ p.name }}</h1>
     <p class="lede">{{ p.tagline }} {{ p.summary }}</p>
 
     {% if has_both %}
@@ -17,12 +18,34 @@
     </div>
     {% endif %}
 
-    <div class="grid grid-2">
+    {% set poster_file = 'mdp.png' if code == 'mdp' else ('executive-mba-' ~ kind|lower ~ '.png' if code == 'emba' else 'certification-' ~ kind|lower ~ '.png') %}
+    {% set brochure_file = 'mdp.jpg' if code == 'mdp' else ('executive-mba-' ~ kind|lower ~ '.jpg' if code == 'emba' else 'certification-' ~ kind|lower ~ '.jpg') %}
+    <div class="programme-resources">
+      <div class="programme-resource">
+        <p class="eyebrow">PROGRAMME POSTER</p>
+        <h2>Quick overview</h2>
+        <a class="brochure-preview poster-preview" href="{{ url_for('static', filename='posters/' ~ poster_file) }}" target="_blank" rel="noopener">
+          <img src="{{ url_for('static', filename='posters/' ~ poster_file) }}" alt="{{ p.name }} poster">
+          <span>Open full-size poster ↗</span>
+        </a>
+      </div>
+      <div class="programme-resource">
+        <p class="eyebrow">DETAILED BROCHURE</p>
+        <h2>Explore the programme</h2>
+        <a class="brochure-preview" href="{{ url_for('static', filename='posters/' ~ brochure_file) }}" target="_blank" rel="noopener">
+          <img src="{{ url_for('static', filename='posters/' ~ brochure_file) }}" alt="{{ p.name }} detailed brochure">
+          <span>Open full-size brochure ↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-2 programme-detail-grid">
       <div class="panel">
-        <h3>{{ s.label }}</h3>
+        <span class="tag">{{ 'ORGANISATIONS' if kind=='B2B' else 'INDIVIDUALS' }}</span>
+        <h2>{{ s.label }}</h2>
         <p>{{ s.positioning }}</p>
         <p class="small muted">Designed for: {{ s.audience }}.</p>
-        <h3 style="margin-top:20px">What's included</h3>
+        <h3 class="subheading">What's included</h3>
         <ul class="ticks">
           {% for pt in (p.b2b_points if kind=='B2B' else p.b2c_points) %}<li>{{ pt }}</li>{% endfor %}
         </ul>
@@ -31,22 +54,12 @@
         </dl>
       </div>
 
-      <div class="panel">
-        <h3>Fees</h3>
-        <p class="price-big">{{ p['price_headline_' ~ kind.lower()] }}</p>
-        {% if kind=='B2B' and p.b2b_table %}
-          <p class="muted small">Volume pricing for organisations:</p>
-          <div class="table-scroll"><table class="compare">
-            <thead><tr>{% for c in p.b2b_table_cols %}<th>{{ c }}</th>{% endfor %}</tr></thead>
-            <tbody>{% for r in p.b2b_table %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td class="num">{{ r[2] }}</td></tr>{% endfor %}</tbody>
-          </table></div>
-        {% elif kind=='B2B' %}
-          <p class="muted">{{ p.b2b_note }}</p>
-        {% else %}
-          <p class="muted">{{ p.b2c_note }}</p>
-        {% endif %}
-        <p class="small muted">All fees are before GST.</p>
-        <p style="margin-top:20px"><a class="btn" href="{{ url_for('enquire', situation=key) }}">Enquire about the {{ p.name }}</a></p>
+      <div class="panel fee-panel">
+        <p class="eyebrow">PROGRAMME FEE</p>
+        <h2 class="price-big">{{ p['price_headline_' ~ kind.lower()] }}</h2>
+        <p class="muted">{{ p.b2b_note if kind=='B2B' else p.b2c_note }}</p>
+        <p class="small muted">All listed fees are before GST. Please confirm current details with TAPMI.</p>
+        <a class="btn" href="{{ url_for('enquire', situation=key) }}">Enquire about the {{ p.name }}</a>
       </div>
     </div>
   </div>

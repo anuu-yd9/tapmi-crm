@@ -4,25 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>{% block title %}Executive education{% endblock %} | Student project</title>
+  <title>{% block title %}TAPMI Bengaluru Executive Education{% endblock %} | Student project</title>
   <meta name="description" content="{% block desc %}Executive MBA, Management Development Programmes and Management Certifications. Student project, not an official TAPMI offering.{% endblock %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="disclaimer" role="note">{{ DISCLAIMER }}</div>
+
   <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="{{ url_for('home') }}">Executive<span>Pathways</span></a>
-      <nav class="nav" aria-label="Main">
+    <div class="wrap header-wrap">
+      <a class="brand" href="{{ url_for('home') }}" aria-label="TAPMI Bengaluru home">
+        <img src="{{ url_for('static', filename='tapmi-logo.png') }}" alt="TAPMI Bengaluru logo">
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="{{ url_for('home') }}#about">About</a>
+        <a href="{{ url_for('home') }}#programmes">Programmes</a>
         <a href="{{ url_for('for_orgs') }}" {% if request.endpoint=='for_orgs' %}aria-current="page"{% endif %}>For organisations</a>
         <a href="{{ url_for('for_people') }}" {% if request.endpoint=='for_people' %}aria-current="page"{% endif %}>For individuals</a>
-        <a href="{{ url_for('assets') }}" {% if request.endpoint=='assets' %}aria-current="page"{% endif %}>Brochures and videos</a>
-        <a href="{{ url_for('how_it_works') }}" {% if request.endpoint=='how_it_works' %}aria-current="page"{% endif %}>How enquiries work</a>
+        <a href="{{ url_for('assets') }}" {% if request.endpoint=='assets' %}aria-current="page"{% endif %}>Brochures</a>
+        <a href="{{ url_for('how_it_works') }}" {% if request.endpoint=='how_it_works' %}aria-current="page"{% endif %}>How it works</a>
         {% if is_admin %}<a href="{{ url_for('dashboard') }}">CRM</a>{% endif %}
-        <a class="nav-cta" href="{{ url_for('home') }}#start">Make an enquiry</a>
+        <a class="nav-cta" href="{{ url_for('home') }}#start">Enquire now</a>
       </nav>
     </div>
   </header>
@@ -42,15 +48,32 @@
 
   <main id="main">
     {% with msgs = get_flashed_messages() %}
-      {% if msgs %}<div class="wrap">{% for m in msgs %}<div class="flash" role="status">{{ m }}</div>{% endfor %}</div>{% endif %}
+      {% if msgs %}
+        <div class="wrap">
+          {% for m in msgs %}<div class="flash" role="status">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
-      <p><strong>{{ DISCLAIMER }}</strong> Built for the Business Marketing course (BBAT35M02), Milestone 3. All people, organisations and leads shown are dummy data or consented test data.</p>
-      <p class="small">Prices are the group's recommended prices from Milestone 2, before GST. <a href="{{ url_for('login') }}">Team login</a></p>
+    <div class="wrap footer-wrap">
+      <div>
+        <img src="{{ url_for('static', filename='tapmi-logo.png') }}" alt="TAPMI Bengaluru" class="footer-logo">
+        <p><strong>{{ DISCLAIMER }}</strong></p>
+      </div>
+      <div class="footer-links">
+        <a href="{{ url_for('home') }}#about">About</a>
+        <a href="{{ url_for('home') }}#programmes">Programmes</a>
+        <a href="{{ url_for('assets') }}">Brochures</a>
+        <a href="{{ url_for('login') }}">Team login</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="wrap">
+        Built for the Business Marketing course (BBAT35M02), Milestone 3. All people, organisations and leads shown are dummy data or consented test data.
+      </div>
     </div>
   </footer>
 </body>

@@ -1,73 +1,175 @@
 {% extends "base.html" %}
-{% block title %}Executive MBA, MDPs and Certifications{% endblock %}
+{% block title %}TAPMI Bengaluru | Executive Education{% endblock %}
+{% block desc %}Explore the Executive MBA, Management Development Programme and Management Certifications in this TAPMI Bengaluru student project.{% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="wrap">
-    <h1>Management education that fits how you buy it.</h1>
-    <p class="lede">An Executive MBA, customised Management Development Programmes and focused Certifications, with a clear route in for organisations and a different one for individuals.</p>
 
-    <div class="board-wrap" id="start">
-      <div class="board">
-        <header>
-          <h2>I'm buying for an organisation</h2>
-          <p>Sponsor employees, develop a whole cohort or upskill a team.</p>
-        </header>
-        <ul>
-          <li><a href="{{ url_for('programme', code='emba', **{'for':'B2B'}) }}">
-            <span class="row-name">Executive MBA</span><span class="row-meta">18 months · weekend and blended</span>
-            <span class="row-price">₹9,50,000<small>per participant + GST</small></span></a></li>
-          <li><a href="{{ url_for('programme', code='mdp') }}">
-            <span class="row-name">Management Development Programme</span><span class="row-meta">3 months · customised for your group</span>
-            <span class="row-price">₹25,00,000<small>per group of up to 25 + GST</small></span></a></li>
-          <li><a href="{{ url_for('programme', code='cert', **{'for':'B2B'}) }}">
-            <span class="row-name">Management Certifications</span><span class="row-meta">3 months · volume pricing</span>
-            <span class="row-price">₹18,000<small>per learner + GST</small></span></a></li>
-        </ul>
+<section class="home-hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">TAPMI BENGALURU · EXECUTIVE EDUCATION</p>
+      <h1>Inspire your next <span>capability leap.</span></h1>
+      <p class="hero-lede">Academically grounded, applied management learning for professionals and organisations in India's technology and business hub.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#programmes">Explore programmes</a>
+        <a class="btn btn-ghost" href="#start">Talk to our team</a>
       </div>
-
-      <div class="board alt">
-        <header>
-          <h2>I'm investing in myself</h2>
-          <p>Move beyond your function, or add one focused skill.</p>
-        </header>
-        <ul>
-          <li><a href="{{ url_for('programme', code='emba', **{'for':'B2C'}) }}">
-            <span class="row-name">Executive MBA</span><span class="row-meta">18 months · EMI and deferred-fee option</span>
-            <span class="row-price">₹9,50,000<small>+ GST</small></span></a></li>
-          <li><a href="{{ url_for('programme', code='cert', **{'for':'B2C'}) }}">
-            <span class="row-name">Management Certifications</span><span class="row-meta">3 months · credits stack into the Executive MBA</span>
-            <span class="row-price">₹18,000<small>+ GST · two-instalment plan</small></span></a></li>
-        </ul>
+    </div>
+    <div class="hero-art" aria-label="TAPMI Bengaluru executive education">
+      <div class="hero-orbit orbit-one"></div>
+      <div class="hero-orbit orbit-two"></div>
+      <div class="hero-stamp">
+        <span>Learn</span>
+        <strong>Lead</strong>
+        <span>Grow</span>
       </div>
+      <div class="hero-note">
+        <span class="note-dot"></span>
+        <strong>Future-ready learning</strong>
+        <small>For people and organisations</small>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="wrap stats-grid">
+      <div><strong>1981</strong><span>TAPMI's founding year</span></div>
+      <div><strong>MAHE</strong><span>Institution of Eminence</span></div>
+      <div><strong>AACSB · AMBA</strong><span>Accredited business school</span></div>
+      <div><strong>3</strong><span>Executive education pathways</span></div>
     </div>
   </div>
 </section>
 
-<section class="section-tight">
-  <div class="wrap">
-    <h2>The three programmes at a glance</h2>
-    <div class="table-scroll">
-    <table class="compare">
-      <thead><tr><th></th><th>Executive MBA</th><th>Management Development Programme</th><th>Management Certifications</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">Best for</th><td>High-potential employees and mid-career professionals moving into broader leadership</td><td>Groups of managers who share a capability gap</td><td>Employees or professionals who need one specific skill</td></tr>
-        <tr><th scope="row">Duration</th><td>18 months</td><td>3 months</td><td>3 months</td></tr>
-        <tr><th scope="row">Format</th><td>Alternate weekends on campus, live virtual and asynchronous modules</td><td>2 campus immersions, live online weekends, bi-weekly coaching</td><td>Weekend live online, self-paced content, optional campus masterclass</td></tr>
-        <tr><th scope="row">Who buys</th><td>Organisations and individuals</td><td>Organisations only</td><td>Organisations and individuals</td></tr>
-      </tbody>
-    </table>
+<section class="about-section" id="about">
+  <div class="wrap about-grid">
+    <div class="about-copy">
+      <p class="eyebrow">ABOUT TAPMI BENGALURU</p>
+      <h2>Four decades of management education, <span>now in Bengaluru.</span></h2>
+      <p>TAPMI Bengaluru is a constituent unit of Manipal Academy of Higher Education (MAHE), and extends the legacy of T. A. Pai Management Institute to Bengaluru.</p>
+      <p>Its executive education pathways are designed for professionals who want to broaden their leadership capabilities and organisations that want to build practical, workplace-ready skills.</p>
+      <p>Learning begins with your goals: understanding the business challenge or career ambition, then shaping an experience that can be applied at work.</p>
+      <div class="about-pillars">
+        <div><strong>Rigorous</strong><span>Depth and academic credibility</span></div>
+        <div><strong>Applied</strong><span>Cases, projects and workplace use</span></div>
+        <div><strong>Flexible</strong><span>Designed around working lives</span></div>
+        <div><strong>Connected</strong><span>Bengaluru's industry ecosystem</span></div>
+      </div>
     </div>
+    <aside class="about-highlight">
+      <span class="highlight-kicker">THE TAPMI APPROACH</span>
+      <blockquote>“From functional expert to business leader.”</blockquote>
+      <p>The idea behind executive management learning: connect academic foundations with practical business challenges.</p>
+      <div class="highlight-line"></div>
+      <span class="highlight-foot">Learn · Lead · Grow</span>
+    </aside>
   </div>
 </section>
 
-<section>
+<section class="programmes-section" id="programmes">
   <div class="wrap">
-    <h2>What happens after you enquire</h2>
+    <div class="section-heading">
+      <p class="eyebrow">EXPLORE YOUR PATHWAY</p>
+      <h2>Programmes offered</h2>
+      <p class="lede">Choose the learning pathway that matches your next professional or organisational goal.</p>
+    </div>
+
+    <div class="programme-grid">
+      <article class="programme-card">
+        <div class="programme-number">01</div>
+        <span class="programme-label">FOR INDIVIDUALS & ORGANISATIONS</span>
+        <h3>Executive MBA</h3>
+        <p>An 18-month weekend-and-blended management programme with an applied, workplace-linked project, built for working professionals.</p>
+        <div class="programme-meta"><span>18 months</span><span>Weekend & blended</span></div>
+        <div class="programme-links">
+          <a href="{{ url_for('programme', code='emba', **{'for':'B2C'}) }}">For individuals <span>→</span></a>
+          <a href="{{ url_for('programme', code='emba', **{'for':'B2B'}) }}">For organisations <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="programme-card featured">
+        <div class="programme-number">02</div>
+        <span class="programme-label">FOR ORGANISATIONS</span>
+        <h3>Management Development Programme</h3>
+        <p>A customised, blended programme for groups of managers, designed around the organisation's own business challenges.</p>
+        <div class="programme-meta"><span>3 months</span><span>Customised cohort</span></div>
+        <div class="programme-links">
+          <a href="{{ url_for('programme', code='mdp', **{'for':'B2B'}) }}">Explore the programme <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="programme-card">
+        <div class="programme-number">03</div>
+        <span class="programme-label">FOR INDIVIDUALS & ORGANISATIONS</span>
+        <h3>Management Certifications</h3>
+        <p>Focused, three-month certifications with targeted modules, applied projects and employer-verifiable credentials.</p>
+        <div class="programme-meta"><span>3 months</span><span>Focused upskilling</span></div>
+        <div class="programme-links">
+          <a href="{{ url_for('programme', code='cert', **{'for':'B2C'}) }}">For individuals <span>→</span></a>
+          <a href="{{ url_for('programme', code='cert', **{'for':'B2B'}) }}">For organisations <span>→</span></a>
+        </div>
+      </article>
+    </div>
+    <p class="small muted programme-disclaimer">Programme details and fees on this student project are illustrative and should be confirmed with TAPMI.</p>
+  </div>
+</section>
+
+<section class="approach-section" id="approach">
+  <div class="wrap">
+    <div class="section-heading">
+      <p class="eyebrow">A CLEAR WAY FORWARD</p>
+      <h2>How the enquiry process works</h2>
+    </div>
     <ol class="steps">
-      <li><h3>Tell us what you need</h3><p>A short form. Organisations tell us about the group and the budget. Individuals tell us about their experience and plans.</p></li>
-      <li><h3>Hear back within one working day</h3><p>You get a confirmation straight away and a counsellor follows up the next working day.</p></li>
-      <li><h3>Talk it through</h3><p>A call about fit, fees and timing. No pressure, and you can pause at any point.</p></li>
+      <li><h3>Tell us what you need</h3><p>Share your goals, professional background or your organisation's capability requirements.</p></li>
+      <li><h3>Discuss the right fit</h3><p>A counsellor can help you understand the programme structure, suitability and next steps.</p></li>
+      <li><h3>Plan your next step</h3><p>Review the relevant programme information and decide how you would like to proceed.</p></li>
     </ol>
   </div>
 </section>
+
+<section class="enquiry-band" id="start">
+  <div class="wrap enquiry-band-inner">
+    <div>
+      <p class="eyebrow">START A CONVERSATION</p>
+      <h2>Invest in your next chapter.</h2>
+      <p>Tell us whether you're exploring a programme for yourself or building capability across your organisation.</p>
+    </div>
+    <div class="enquiry-band-actions">
+      <a class="btn btn-light" href="{{ url_for('for_people') }}">I'm an individual</a>
+      <a class="btn btn-outline-light" href="{{ url_for('for_orgs') }}">I'm representing an organisation</a>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="faqs">
+  <div class="wrap faq-wrap">
+    <div class="section-heading centered">
+      <p class="eyebrow">GOOD TO KNOW</p>
+      <h2>Frequently asked questions</h2>
+      <p class="lede">A few helpful answers as you explore the executive education pathways.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>What executive education pathways are featured?</summary>
+        <p>This website presents three pathways: the Executive MBA, Management Development Programme and Management Certifications.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which programme is suitable for an organisation?</summary>
+        <p>Organisations can explore the Executive MBA for sponsored professionals, the Management Development Programme for a customised manager cohort, and Management Certifications for focused employee upskilling.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can working professionals study alongside their jobs?</summary>
+        <p>The programme information describes weekend and blended learning formats. Review the individual programme page for its stated structure and schedule.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I find the programme details and posters?</summary>
+        <p>Visit the Brochures section to view the programme posters, or open an individual programme page for its summary, duration, format and fee information.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is this an official TAPMI admissions website?</summary>
+        <p>No. This is a student project and is not an official TAPMI offering or admissions website. Programme information and fees should be independently confirmed with TAPMI.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
